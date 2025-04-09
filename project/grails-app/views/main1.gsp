@@ -70,7 +70,7 @@
         <!-- First Card (No Border) -->
         <div class="row g-0 mb-3">
             <div class="col-md-4">
-                <img src="user.jpg" class="img-fluid rounded-start" alt="...">
+                <img src="../assets/user.jpg" class="img-fluid rounded-start" alt="...">
             </div>
             <div class="col-md-8">
                 <div class="p-2">
@@ -88,7 +88,7 @@
         <!-- Second Card (No Border) -->
         <div class="row g-0 mb-3">
             <div class="col-md-4">
-                <img src="user.jpg" class="img-fluid rounded-start" alt="...">
+                <img src="../assets/user.jpg" >
             </div>
             <div class="col-md-8">
                 <div class="p-2">
@@ -114,7 +114,7 @@
                     <div class="card mb-3" style="max-width: 540px;">
                         <div class="row g-5">
                             <div class="col-md-4">
-                                <img src="user.jpg" class="img-fluid rounded-start" alt="...">
+                                <img src="../assets/user.jpg" class="img-fluid rounded-start" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
