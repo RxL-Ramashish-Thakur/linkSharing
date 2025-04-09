@@ -7,6 +7,9 @@ grails:
   codegen:
     defaultPackage: project
   profile: web
+  plugin:
+    console:
+      enabled: true
   views:
     default:
       codec: html
