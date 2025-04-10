@@ -7,8 +7,14 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        "/"(view:"/main1")
-        /*"/"(view:"/index")*/
+
+        "/"(view:"/index")
+        "/project"(view:"/main1")
+        "/dashboard"(view:"/dashboard")
+        "/topShow"(view:"/topShow")
+        "/search"(view:"/search")
+        "/userProfile"(view:"/userProfile")
+        "/editProfile"(view:"/editProfile")
         "500"(view:'/error')
         "404"(view:'/notFound')
 
