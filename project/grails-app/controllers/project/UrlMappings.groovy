@@ -8,8 +8,7 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/index")
-        "/project"(view:"/main1")
+        "/"(view:"/home")
         "/dashboard"(view:"/dashboard")
         "/topShow"(view:"/topShow")
         "/search"(view:"/search")

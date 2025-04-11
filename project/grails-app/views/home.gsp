@@ -175,7 +175,7 @@
                 <div class="">Date</div>
             </div>
 
-           %{-- USER TOPIC IS DISPLAY--}%
+            %{-- USER TOPIC IS DISPLAY--}%
             <div class="row g-0 mb-3">
                 <div class="col-md-4 container mt-1">
                     <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
@@ -226,103 +226,84 @@
     <!-- Column 2: (Can be removed or filled with content) -->
     <div class="col-12 col-md-6 g-3">
 
+
         <!--login section-->
         <div class="bd ar">
             <div class="bg-secondary p-2 bd">
                 <div class="fw-bold">Login</div>
             </div>
-
-            <div class="container m-1">
-                <form class="mt-2">
-                    <div class="container fw-bold fs-5">
-                        <div class="row">
-                            <div class="col-6">Email/UserName <span>*</span></div>
-
-                            <input class="col-5"/>
-                        </div>
-                    </div>
-
-                    <div class="container fw-bold fs-5 mt-2">
-                        <div class="row">
-                            <div class="col-6">Password <span>*</span></div>
-
-                            <input class="col-5"/>
-                        </div>
-
-                    </div>
-
-                    <div class="container mt-2">
-                        <div class="row">
-                            <a class="col-8" href="#">forget Password</a>
-                            <button type="submit" class="btn btn-primary col-3 bd">Login</button>
-                            <br>
-                        </div>
-                    </div>
-                </form>
-
+    <div class="container m-1">
+        <g:form controller="user" action="login" method="POST" class="mt-2">
+            <div class="container fw-bold fs-5">
+                <div class="row">
+                    <label class="col-6">Email/UserName<span>*</span></label>
+                    <g:textField name="usernameOrEmail" class="col-5"/>
+                </div>
             </div>
+
+            <div class="container fw-bold fs-5 mt-2">
+                <div class="row">
+                    <label class="col-6">Password <span>*</span></label>
+                    <g:passwordField name="loginPassword" class="col-5"/>
+                </div>
+            </div>
+
+            <div class="container mt-2">
+                <div class="row">
+                    <a class="col-8" href="#">Forget Password?</a>
+                    <g:submitButton name="login" value="Login" class="btn btn-primary col-3 bd"/>
+                </div>
+            </div>
+        </g:form>
+    </div>
+
+</div>
+     <br>
+
+
+        %{--REgistration--}%
+        <div class="bd">
+            <g:uploadForm controller="user" action="saveUser" method="POST" class="container">
+                <div class="row m-2">
+                    <label class="col-6">First Name *</label>
+                    <g:textField name="firstName" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">Last Name *</label>
+                    <g:textField name="lastName" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">Email *</label>
+                    <g:textField name="email" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">User Name *</label>
+                    <g:textField name="userName" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">Password *</label>
+                    <g:passwordField name="password" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">Confirm Password *</label>
+                    <g:passwordField name="confirmPassword" class="col-5"/>
+                </div>
+
+                <div class="row m-2">
+                    <label class="col-6">Photo *</label>
+                    <input type="file" name="photo" class="col-3"/>
+                </div>
+
+                <div class="text-center">
+                    <g:submitButton name="register" value="Register" class="btn btn-primary"/>
+                </div>
+            </g:uploadForm>
         </div>
-
-
-        <!--registration section-->
-        <div class="bd fst-italic mt-5 fs-5 ar">
-            <div class="bg-secondary p-2">
-                <div class="fw-bold">Register</div>
-            </div>
-
-            <div class="border border-dark"></div>
-
-            <div class="container m-2">
-                <div class="row m-2">
-                    <div for="firstName" class="col-6">First Name <span>*</span></div>
-                    <input name="firstName" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="lastName" class="col-6">Last Name  <span>*</span></div>
-                    <input name="lastName" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="email" class="col-6">Email <span>*</span></div>
-
-                    <input name="email" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="userName" class="col-6">User Name <span>*</span></div>
-
-                    <input name="userName" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="password" class="col-6">Password <span>*</span></div>
-
-                    <input name="password" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="confirmPassword" class="col-6">Confirm Password <span>*</span></div>
-
-                    <input name="confirmPassword" class="col-5"/>
-                </div>
-
-                <div class="row m-2">
-                    <div for="photo" class="col-6">Photo <span>*</span></div>
-
-                    <input name="photo" type="file" class="col-3"/>
-                    <button class="col-2 btn btn-sm bg-primary m-2">Upload <span>*</span</button>
-                </div>
-
-                <div class="container d-flex justify-content-center align-items-center ">
-                    <button class="btn bg-primary">Register</button>
-                </div>
-            </div>
-
-        </div>
-
-
-
 
     </div>
 </div>

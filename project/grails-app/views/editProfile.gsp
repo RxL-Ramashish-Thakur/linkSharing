@@ -152,7 +152,7 @@
                         </select>
                     </div>
                     <div class="icon">
-                        <img src="${assetPath(src: 'icons/mess.jpeg')}" width="40px" height="30px" />
+                        <img src="${assetPath(src: 'icons/message.jpeg')}" width="40px" height="30px" />
                     </div>
                     <div class="icon">
                         <img src="${assetPath(src: 'icons/edit.png')}" width="40px" height="30px" />

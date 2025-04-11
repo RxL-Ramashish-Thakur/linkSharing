@@ -134,7 +134,7 @@
                         <option selected>Private</option>
                         <option>Public</option>
                     </select>
-                    <a href="#"><img src="${resource(dir: 'icons', file: 'mess.jpeg')}" width="30" height="30"/></a>
+                    <a href="#"><img src="${resource(dir: 'icons', file: 'message.jpeg')}" width="30" height="30"/></a>
                     <a href="#"><img src="${resource(dir: 'icons', file: 'edit.png')}" width="30" height="30"/></a>
                     <a href="#"><img src="${resource(dir: 'icons', file: 'delete.png')}" width="30" height="30"/></a>
                 </div>

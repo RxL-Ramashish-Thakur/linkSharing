@@ -11,6 +11,7 @@
     <style>
     .bd {
         border: solid 3px;
+        border-radius: 10px;
     }
 
     a {
@@ -54,14 +55,25 @@
                 <button class="btn btn-primary" type="button">Enter</button>
             </div>
 
-            <div class="col-12 col-md-5 d-flex justify-content-between align-items-center">
-                <a href="#"><img src="${resource(dir: 'icons', file: 'NOTIFICATION.jpeg')}" width="30" height="30"
-                                 alt="Notification"/></a>
-                <a href="#"><img src="${resource(dir: 'icons', file: 'mess.jpeg')}" width="30" height="30"
-                                 alt="Message"/></a>
-                <a href="#"><img src="${resource(dir: 'icons', file: 'link.jpeg')}" width="30" height="30" alt="Link"/>
-                </a>
-                <img src="${resource(dir: 'icons', file: 'user.jpeg')}" width="30" height="30" alt="User"/>
+            <div class="col-12 col-md-5 d-flex justify-content-center align-items-center gap-3">
+                <!-- Share Document Icon -->
+                <span data-bs-toggle="modal" data-bs-target="#shareDocModal" style="cursor:pointer;">
+                    <asset:image src="/icons/doc.png" width="30" height="30" alt="shareDocument"/>
+                </span>
+
+                <!-- Create Topic Icon -->
+                <span data-bs-toggle="modal" data-bs-target="#createTopicModal" style="cursor:pointer;">
+                    <asset:image src="/icons/createTopic.png" width="50" height="50" alt="createTopic"/>
+                </span>
+
+                <!-- Share Link Icon -->
+                <span data-bs-toggle="modal" data-bs-target="#shareLinkModal" style="cursor:pointer;">
+                    <asset:image src="/icons/link.jpeg" width="30" height="30" alt="shareLink"/>
+                </span>
+                <span data-bs-toggle="modal" data-bs-target="#shareLinkModal" style="cursor:pointer;">
+                    <asset:image src="/icons/user.jpeg" width="30" height="30" alt="user"/>
+                </span>
+
 
                 <div class="dropdown ms-2">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
@@ -78,17 +90,22 @@
             </div>
         </div>
     </div>
+    <g:if test="${flash.message}">
+        <div class="alert alert-info bg-success alert-dismissible fade show mt-3" role="alert">
+            ${flash.message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </g:if>
+
+
 
     <div class="container-fluid">
         <div class="row">
             <!-- LEFT COLUMN -->
             <div class="col-lg-6 col-md-12">
-                <!-- User Box -->
-                <br>
-
-                %{--
-                            USER NAME AND TOPIC COUNT
-                --}%
+            <br>
+                  <!-- User Box -->
+                 %{-- USER NAME AND TOPIC COUNT--}%
                 <div class="row g-0 bd">
                     <div class="col-md-4 container mt-1">
                         <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
@@ -116,11 +133,11 @@
                         </div>
                     </div>
                 </div>
+            <br>
 
 
 
                 <!-- Subscribes Box -->
-                <br>
                 <div class="row g-0 mb-3 bd">
                     <div class="d-flex justify-content-between gap-5 fs-4 p-1 bg-secondary">
                         <div class="fw-bold">Subscriptions</div>
@@ -160,33 +177,33 @@
 
                                 <div class="d-flex justify-content-centre align-item-centre gap-1 mt-2">
                                     <div class="input-group mb-3 ">
-                                        <select class="custom-select" id="inputGroupSelect01">
+                                        <select class="custom-select bd" id="inputGroupSelect01">
                                             <option selected>Serious</option>
                                             <option value="1">Non-Serious</option>
                                         </select>
                                     </div>
 
                                     <div class="input-group mb-3">
-                                        <select class="custom-select" id="private">
+                                        <select class="custom-select bd" id="private">
                                             <option selected>Private</option>
                                             <option value="1">Public</option>
                                         </select>
                                     </div>
 
-                                    <div class="d-flex justify-content-centre align-item-centre gap-1 ">
+                                    <div class="d-flex justify-content-centre align-item-centre gap-2 ">
                                         <div class="icon mb-3">
-                                            <a href="#"><img src="../icons/NOTIFICATION.jpeg" width="50px" height="40px"
-                                                             alt="Message"></a>
+                                            <a href="#"><asset:image src="/icons/message.jpeg" width="50px" height="40px"
+                                                                     alt="Message"/></a>
                                         </div>
 
                                         <div class="icon mb-3">
-                                            <a href="#"><img src="../icons/edit.png" width="50px" height="40px"
-                                                             alt="Message"></a>
+                                            <a href="#"><asset:image src="/icons/edit.png" width="50px" height="40px"
+                                                             alt="edit"/></a>
                                         </div>
 
                                         <div class="icon mb-3">
-                                            <a href="#"><img src="../icons/delete.png" width="50px" height="40px"
-                                                             alt="Message"></a>
+                                            <a href="#"><asset:image src="/icons/delete.png" width="50px" height="40px"
+                                                             alt="delete"/></a>
                                         </div>
                                     </div>
                                 </div>
@@ -226,7 +243,7 @@
 
                                 <div class="d-flex mt-2">
                                     <div class="input-group mb-3 ">
-                                        <select class="custom-select" id="inputGroupSelect01">
+                                        <select class="custom-select bd" id="inputGroupSelect01">
                                             <option selected>Serious</option>
                                             <option value="1">Non-Serious</option>
                                         </select>
@@ -240,123 +257,14 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <br>
 
 
-
-                <!-- Trending Topics -->
-                       <div class="mt-3 bd">
-                    <div class="bg-secondary text-white p-2">
-                        <h4>Trending Topics</h4>
-                    </div>
-
-                    <div class="border border-dark"></div>
-
-                    <div class="row g-0 ">
-                        <div class="col-md-4 container mt-1">
-                            <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
-                        </div>
-
-                        <div class="col-md-8">
-                            <div class="m-1 text-secondary">
-                                <a href="#">Grails</a>
-
-                                <p>@uday</p>
-
-                                <div class="d-flex gap-5">
-                                    <div>
-                                        <div>Subscriptions</div>
-                                        <a href="#">30</a>
-                                    </div>
-
-                                    <div>
-                                        <div>topics</div>
-                                        <a href="#">50</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border border-dark"></div>
-
-                        <div class="row g-0">
-                            <div class="col-md-4 container mt-1">
-                                <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
-                            </div>
-
-                            <div class="col-md-8">
-                                <div class="m-1 text-secondary">
-                                    <div class="d-flex gap-3">
-                                        <input type="text" placeholder="grails">
-                                        <button class="btn btn-sm bd ">Save</button>
-                                        <button class="btn btn-sm bd">Cencel</button>
-
-                                    </div>
-
-                                    <p>@uday</p>
-
-                                    <div class="d-flex gap-5">
-                                        <div>
-                                            <div>Subscriptions</div>
-                                            <a href="#">30</a>
-                                        </div>
-
-                                        <div>
-                                            <div>topics</div>
-                                            <a href="#">50</a>
-                                        </div>
-
-                                        <div>
-                                            <div>Posts</div>
-                                            <a href="#">50</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-centre align-item-centre gap-1 mt-2">
-                                        <div class="input-group mb-3 ">
-                                            <select class="custom-select" id="inputGroupSelect01">
-                                                <option selected>Serious</option>
-                                                <option value="1">Non-Serious</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="input-group mb-3">
-                                            <select class="custom-select" id="private">
-                                                <option selected>Private</option>
-                                                <option value="1">Public</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="d-flex justify-content-centre align-item-centre gap-1 ">
-                                            <div class="icon mb-3">
-                                                <a href="#"><img src="../icons/NOTIFICATION.jpeg" width="50px"
-                                                                 height="40px" alt="Message"></a>
-                                            </div>
-
-                                            <div class="icon mb-3">
-                                                <a href="#"><img src="../icons/edit.png" width="50px" height="40px"
-                                                                 alt="Message"></a>
-                                            </div>
-
-                                            <div class="icon mb-3">
-                                                <a href="#"><img src="../icons/delete.png" width="50px" height="40px"
-                                                                 alt="Message"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <br>
-
-
-                <!-- Send Invitation -->
+                <!-- Send Invitation/ Link -->
                 <div class="mt-3 p-3 bd bg-light ">
-                    <h3 >Send Invitation</h3>
+                    <h3>Send Invitation</h3>
 
                     <form>
                         <div class="mb-3 row">
@@ -397,7 +305,7 @@
             <div class="col-lg-6 col-md-12 mt-4">
 
                 <!-- Inbox -->
-                     <div class="bd">
+                <div class="bd">
                     <div class="bg-secondary text-white p-2">
                         <h5>Inbox</h5>
                     </div>
@@ -512,90 +420,203 @@
                 </div>
 
 
-                <!-- Share Link -->
-                   <div class="mt-3 p-3 border border-dark rounded bg-light">
-                    <h3 class=" fw-bold ">Share Link</h3>
+                <!-- Trending Topics -->
+                <div class="mt-3 bd">
+                    <div class="bg-secondary text-white p-2">
+                        <h4>Trending Topics</h4>
+                    </div>
 
-                    <form>
-                        <div class="mb-3">
-                            <label>Link *</label>
-                            <input type="url" class="form-control" placeholder="Paste your link">
+                    <div class="border border-dark"></div>
+
+                    <div class="row g-0 ">
+                        <div class="col-md-4 container mt-1">
+                            <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
                         </div>
 
-                        <div class="mb-3">
-                            <label>Description *</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                        <div class="col-md-8">
+                            <div class="m-1 text-secondary">
+                                <a href="#">Grails</a>
+
+                                <p>@uday</p>
+
+                                <div class="d-flex gap-5">
+                                    <div>
+                                        <div>Subscriptions</div>
+                                        <a href="#">30</a>
+                                    </div>
+
+                                    <div>
+                                        <div>topics</div>
+                                        <a href="#">50</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label>Topic *</label>
-                            <select class="form-select">
-                                <option selected>Topic</option>
-                                <option value="1">Topic Other</option>
-                            </select>
+                        <div class="border border-dark"></div>
+
+                        <div class="row g-0">
+                            <div class="col-md-4 container mt-1">
+                                <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="m-1 text-secondary">
+                                    <div class="d-flex gap-3">
+                                        <input type="text" placeholder="grails">
+                                        <button class="btn btn-sm bd ">Save</button>
+                                        <button class="btn btn-sm bd">Cencel</button>
+
+                                    </div>
+
+                                    <p>@uday</p>
+
+                                    <div class="d-flex gap-5">
+                                        <div>
+                                            <div>Subscriptions</div>
+                                            <a href="#">30</a>
+                                        </div>
+
+                                        <div>
+                                            <div>topics</div>
+                                            <a href="#">50</a>
+                                        </div>
+
+                                        <div>
+                                            <div>Posts</div>
+                                            <a href="#">50</a>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex justify-content-centre align-item-centre gap-1 mt-2">
+                                        <div class="input-group mb-3 ">
+                                            <select class="custom-select" id="inputGroupSelect01">
+                                                <option selected>Serious</option>
+                                                <option value="1">Non-Serious</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="input-group mb-3">
+                                            <select class="custom-select" id="private">
+                                                <option selected>Private</option>
+                                                <option value="1">Public</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="d-flex justify-content-centre align-item-centre gap-1 ">
+                                            <div class="icon mb-3">
+                                                <a href="#"><img src="../icons/NOTIFICATION.jpeg" width="50px"
+                                                                 height="40px" alt="Message"></a>
+                                            </div>
+
+                                            <div class="icon mb-3">
+                                                <a href="#"><img src="../icons/edit.png" width="50px" height="40px"
+                                                                 alt="Message"></a>
+                                            </div>
+
+                                            <div class="icon mb-3">
+                                                <a href="#"><img src="../icons/delete.png" width="50px" height="40px"
+                                                                 alt="Message"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="text-end">
-                            <button class="btn btn-success me-2">Share</button>
-                            <button class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+                <br>
+
+
+                <!-- Share Link MODEL -->
+                <div class="modal fade" id="shareLinkModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content p-3">
+                            <h3 class="fw-bold">Share Link</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label>Link *</label>
+                                    <input type="url" class="form-control" placeholder="Paste your link">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Description *</label>
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Topic *</label>
+                                    <select class="form-select">
+                                        <option selected>Topic</option>
+                                        <option value="1">Topic Other</option>
+                                    </select>
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-success me-2">Share</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </div>
 
-                <!-- Share Document -->
-                     <div class="mt-3 p-3 border border-dark rounded bg-light">
-                    <h3 class="">Share Document</h3>
 
-                    <form>
-                        <div class="mb-3">
-                            <label>Upload *</label>
-                            <input type="file" class="form-control">
+                <!-- Share Document MOdel -->
+                <div class="modal fade" id="shareDocModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content p-3">
+                            <h3>Share Document</h3>
+                            <form>
+                                <div class="mb-3">
+                                    <label>Upload *</label>
+                                    <input type="file" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label>Description *</label>
+                                    <textarea class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label>Topic *</label>
+                                    <select class="form-select">
+                                        <option selected>Topic</option>
+                                        <option value="1">Topic Other</option>
+                                    </select>
+                                </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-success me-2">Share</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
                         </div>
-
-                        <div class="mb-3">
-                            <label>Description *</label>
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Topic *</label>
-                            <select class="form-select">
-                                <option selected>Topic</option>
-                                <option value="1">Topic Other</option>
-                            </select>
-                        </div>
-
-                        <div class="text-end">
-                            <button class="btn btn-success me-2">Share</button>
-                            <button class="btn btn-secondary">Cancel</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
 
-                <!-- Create Topic -->
-                     <div class="mt-3 p-3 border border-dark rounded bg-light">
-                    <h3>Create Topic</h3>
 
-                    <form>
-                        <div class="mb-3">
-                            <label>Name *</label>
-                            <input type="text" class="form-control" placeholder="name">
-                        </div>
-
-                        <div class="mb-3">
-                            <label>Visibility *</label>
-                            <select class="form-select">
-                                <option selected>Public</option>
-                                <option value="1">Private</option>
-                            </select>
-                        </div>
-
-                        <div class="text-end">
-                            <button class="btn btn-primary me-2">Create</button>
-                            <button class="btn btn-secondary">Cancel</button>
-                        </div>
-                    </form>
+                <!-- Create Topic MOdel -->
+                <div class="modal fade" id="createTopicModal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content p-3">
+                        <h3>Create Topic</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label>Name *</label>
+                                <input type="text" class="form-control" placeholder="name">
+                            </div>
+                            <div class="mb-3">
+                                <label>Visibility *</label>
+                                <select class="form-select">
+                                    <option selected>Public</option>
+                                    <option value="1">Private</option>
+                                </select>
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-primary me-2">Create</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
+            </div>
+
             </div>
 
         </div>
