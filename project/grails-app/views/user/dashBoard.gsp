@@ -41,81 +41,47 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<g:if test="${flash.message}">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        ${flash.message}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</g:if>
+
+<g:if test="${flash.error}">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        ${flash.error}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</g:if>
+
 
 <div class="container">
     <!-- HEADING -->
-    <div class="container mt-4 p-2 bd">
-        <div class="row align-items-center">
-            <div class="col-12 col-md-4 d-flex align-items-center mb-2 mb-md-0">
-                <a href="#">Link Sharing</a>
-            </div>
-
-            <div class="col-12 col-md-3 d-flex mb-2 mb-md-0">
-                <input class="form-control me-2" type="text" placeholder="Search"/>
-                <button class="btn btn-primary" type="button">Enter</button>
-            </div>
-
-            <div class="col-12 col-md-5 d-flex justify-content-center align-items-center gap-3">
-                <!-- Share Document Icon -->
-                <span data-bs-toggle="modal" data-bs-target="#shareDocModal" style="cursor:pointer;">
-                    <asset:image src="/icons/doc.png" width="30" height="30" alt="shareDocument"/>
-                </span>
-
-                <!-- Create Topic Icon -->
-                <span data-bs-toggle="modal" data-bs-target="#createTopicModal" style="cursor:pointer;">
-                    <asset:image src="/icons/createTopic.png" width="50" height="50" alt="createTopic"/>
-                </span>
-
-                <!-- Share Link Icon -->
-                <span data-bs-toggle="modal" data-bs-target="#shareLinkModal" style="cursor:pointer;">
-                    <asset:image src="/icons/link.jpeg" width="30" height="30" alt="shareLink"/>
-                </span>
-                <span data-bs-toggle="modal" data-bs-target="#shareLinkModal" style="cursor:pointer;">
-                    <asset:image src="/icons/user.jpeg" width="30" height="30" alt="user"/>
-                </span>
-
-
-                <div class="dropdown ms-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                        User
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item" href="#">Users</a></li>
-                        <li><a class="dropdown-item" href="#">Topic</a></li>
-                        <li><a class="dropdown-item" href="#">Post</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <g:if test="${flash.message}">
-        <div class="alert alert-info bg-success alert-dismissible fade show mt-3" role="alert">
-            ${flash.message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    </g:if>
-
-
+    <g:render template="/common/userNavbar"/>
 
     <div class="container-fluid">
         <div class="row">
             <!-- LEFT COLUMN -->
             <div class="col-lg-6 col-md-12">
-            <br>
-                  <!-- User Box -->
-                 %{-- USER NAME AND TOPIC COUNT--}%
+                <br>
+                <!-- User Box -->
+                %{-- USER NAME AND TOPIC COUNT--}%
                 <div class="row g-0 bd">
                     <div class="col-md-4 container mt-1">
-                        <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="..."/>
+                        <g:if test="${session.user?.photo}">
+                            <img src="${createLink(controller: 'user', action: 'showImage', id: session.user.id)}"
+                                 class="img-fluid rounded-start" alt="User Photo"/>
+                        </g:if>
+                        <g:else>
+                            <asset:image src="/icons/user.jpeg" class="img-fluid rounded-start" alt="Default Photo"/>
+                        </g:else>
                     </div>
-
                     <div class="col-md-8">
                         <div class="m-1 text-secondary">
-                            <h2>Uday Pratap Singh</h2>
+                            <h2>${session.user.firstName} &nbsp; ${session.user.lastName}</h2>
 
-                            <p>@uday</p>
+                            <p>@${session.user.firstName}</p>
 
                             <div class="d-flex gap-5">
                                 <div>
@@ -133,9 +99,7 @@
                         </div>
                     </div>
                 </div>
-            <br>
-
-
+                <br>
 
                 <!-- Subscribes Box -->
                 <div class="row g-0 mb-3 bd">
@@ -192,18 +156,19 @@
 
                                     <div class="d-flex justify-content-centre align-item-centre gap-2 ">
                                         <div class="icon mb-3">
-                                            <a href="#"><asset:image src="/icons/message.jpeg" width="50px" height="40px"
+                                            <a href="#"><asset:image src="/icons/message.jpeg" width="50px"
+                                                                     height="40px"
                                                                      alt="Message"/></a>
                                         </div>
 
                                         <div class="icon mb-3">
                                             <a href="#"><asset:image src="/icons/edit.png" width="50px" height="40px"
-                                                             alt="edit"/></a>
+                                                                     alt="edit"/></a>
                                         </div>
 
                                         <div class="icon mb-3">
                                             <a href="#"><asset:image src="/icons/delete.png" width="50px" height="40px"
-                                                             alt="delete"/></a>
+                                                                     alt="delete"/></a>
                                         </div>
                                     </div>
                                 </div>
@@ -534,15 +499,18 @@
                     <div class="modal-dialog">
                         <div class="modal-content p-3">
                             <h3 class="fw-bold">Share Link</h3>
+
                             <form>
                                 <div class="mb-3">
                                     <label>Link *</label>
                                     <input type="url" class="form-control" placeholder="Paste your link">
                                 </div>
+
                                 <div class="mb-3">
                                     <label>Description *</label>
                                     <textarea class="form-control" rows="3"></textarea>
                                 </div>
+
                                 <div class="mb-3">
                                     <label>Topic *</label>
                                     <select class="form-select">
@@ -550,9 +518,11 @@
                                         <option value="1">Topic Other</option>
                                     </select>
                                 </div>
+
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-success me-2">Share</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -565,15 +535,18 @@
                     <div class="modal-dialog">
                         <div class="modal-content p-3">
                             <h3>Share Document</h3>
+
                             <form>
                                 <div class="mb-3">
                                     <label>Upload *</label>
                                     <input type="file" class="form-control">
                                 </div>
+
                                 <div class="mb-3">
                                     <label>Description *</label>
                                     <textarea class="form-control" rows="3"></textarea>
                                 </div>
+
                                 <div class="mb-3">
                                     <label>Topic *</label>
                                     <select class="form-select">
@@ -581,9 +554,11 @@
                                         <option value="1">Topic Other</option>
                                     </select>
                                 </div>
+
                                 <div class="text-end">
                                     <button type="submit" class="btn btn-success me-2">Share</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
                                 </div>
                             </form>
                         </div>
@@ -593,29 +568,33 @@
 
                 <!-- Create Topic MOdel -->
                 <div class="modal fade" id="createTopicModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content p-3">
-                        <h3>Create Topic</h3>
-                        <form>
-                            <div class="mb-3">
-                                <label>Name *</label>
-                                <input type="text" class="form-control" placeholder="name">
-                            </div>
-                            <div class="mb-3">
-                                <label>Visibility *</label>
-                                <select class="form-select">
-                                    <option selected>Public</option>
-                                    <option value="1">Private</option>
-                                </select>
-                            </div>
-                            <div class="text-end">
-                                <button type="submit" class="btn btn-primary me-2">Create</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                            </div>
-                        </form>
+                    <div class="modal-dialog">
+                        <div class="modal-content p-3">
+                            <h3>Create Topic</h3>
+
+                            <form>
+                                <div class="mb-3">
+                                    <label>Name *</label>
+                                    <input type="text" class="form-control" placeholder="name">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label>Visibility *</label>
+                                    <select class="form-select">
+                                        <option selected>Public</option>
+                                        <option value="1">Private</option>
+                                    </select>
+                                </div>
+
+                                <div class="text-end">
+                                    <button type="submit" class="btn btn-primary me-2">Create</button>
+                                    <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
             </div>
 

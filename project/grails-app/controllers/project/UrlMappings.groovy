@@ -8,12 +8,8 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/home")
-        "/dashboard"(view:"/dashboard")
-        "/topShow"(view:"/topShow")
-        "/search"(view:"/search")
-        "/userProfile"(view:"/userProfile")
-        "/editProfile"(view:"/editProfile")
+        "/"(view:"/user/home")
+       //"/"(view:'index')
         "500"(view:'/error')
         "404"(view:'/notFound')
 

@@ -3,5 +3,11 @@ package project
 
 class SubscriptionController {
 
-    static scaffold = Subscription
+    def display(){
+        if (!session.user) {
+            redirect(action: 'login')
+            return
+        }
+        render(view:'subscription')
+    }
 }

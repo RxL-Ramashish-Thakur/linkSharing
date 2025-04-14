@@ -1,7 +1,8 @@
 package project
 
-
 class TopicController {
 
-    static scaffold = Topic
+    def display(){
+        render(view:'display')
+    }
 }
