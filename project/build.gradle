@@ -82,6 +82,7 @@ dependencies {
     testImplementation("com.h2database:h2:2.3.232")
     runtimeOnly("com.oracle.database.jdbc:ojdbc8:19.3.0.0")
     runtimeOnly("org.grails.plugins:grails-console:2.1.1")
+    implementation group: 'org.codehaus.groovy', name: 'groovy-dateutil', version: '3.0.13'
 }
 
 application {

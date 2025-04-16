@@ -14,6 +14,4 @@ class Subscription {
         seriousness nullable: false
     }
 }
-enum Seriousness {
-    SERIOUS, CASUAL, VERY_SERIOUS
-}
+

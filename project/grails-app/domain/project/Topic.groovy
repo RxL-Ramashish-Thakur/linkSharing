@@ -6,7 +6,7 @@ class Topic {
     Visibility visibility
     User owner
 
-    static hasMany = [subscriptions: Subscription, resources: Resource]
+    static hasMany = [subscriptions: Subscription, resourcesTable: ResourceTable]
     static belongsTo = [owner: User]
 
     static constraints = {
@@ -14,6 +14,4 @@ class Topic {
         visibility nullable: false
     }
 }
-enum Visibility {
-    PUBLIC, PRIVATE
-}
+

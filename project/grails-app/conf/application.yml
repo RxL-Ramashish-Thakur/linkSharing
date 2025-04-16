@@ -62,7 +62,9 @@ dataSource:
   password: "Linksharing123"
   pooled: true
   jmxExport: true
-  dbCreate: create-drop
+  dbCreate: update
+#  dbCreate: create-drop
+
 
 hibernate:
   allow_update_outside_transaction: true

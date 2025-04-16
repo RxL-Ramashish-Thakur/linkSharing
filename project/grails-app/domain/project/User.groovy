@@ -10,7 +10,7 @@ class User {
     Date lastUpdated
     Date dateCreated
     boolean active = true  // Indicates whether the user is active or not
-    static hasMany = [invitesSent: Invite, invitesReceived: Invite, ratings: Rating, resources: Resource, subscriptions: Subscription, topics: Topic]
+    static hasMany = [invitesSent: Invite, invitesReceived: Invite, ratings: Rating, resourcesTable: ResourceTable, subscriptions: Subscription, topics: Topic]
 
     static constraints = {
         firstName nullable: false, blank: false

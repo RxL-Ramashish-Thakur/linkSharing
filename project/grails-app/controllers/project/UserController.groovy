@@ -1,103 +1,49 @@
 package project
 
+import org.springframework.web.multipart.MultipartFile
+
+
 class UserController {
+    def userService
 
     def saveUser() {
         println "Register button clicked"
-        try {
-            String email = params.email?.trim()
-            def emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/
-
-            if (!email || !(email ==~ emailRegex)) {
-                flash.message = "Invalid email format."
-                redirect(action: 'home')
-                return
-            }
-            def user = User.findByEmail(email)
-            if (user) {
-                flash.message = "Email already exist"
-                render(view: 'home')
-                return;
-            }
-
-            if (!params.firstName || !params.lastName) {
-                flash.message = "Enter valid Name"
-                render(view: 'home')
-                return;
-            }
-            if (!params.password) {
-                flash.message = "Password Not to be balank"
-                render(view: 'home')
-                return;
-            }
-            if (params.password != params.confirmPassword) {
-                flash.message = "Password and confirm Password Not match"
-                render(view: 'home')
-                return;
-
-            }
-            user = new User(params)
-            user.save(flush: true, failOnError: true)
-            flash.message = "User registered successfully."
-            redirect(action: "login")
-
-        } catch (Exception e) {
-            e.printStackTrace()
-            flash.message = "Something went wrong. Please try again."
-            redirect(action: 'home')
+        def resultView = userService.saveUser(params, session, flash)
+        if (resultView == 'login') {
+            redirect(action: resultView)
+        } else {
+            render(view: resultView)
         }
     }
 
     def login() {
-        String email = params.email
-        String loginPassword = params.loginPassword
-        //println(params)
+        def result = userService.loginUser(params, flash)
 
-        if (!email || !loginPassword) {
-            flash.error = "Please try to login "
-            render(view: "login")
-            return
-        }
-
-        def user = User.findByEmail(email)
-        //println (email)
-        if (!user) {
-            flash.error = "User not found."
-            render(view: "login")
-        } else if (user.password != loginPassword) {
-            flash.error = "Invalid password."
-            render(view: "login")
-        } else if (!user.active) {
-            flash.error = "Your account is deactivated."
-            render(view: "login")
+        if (result.success) {
+            session.user = result.user
+             redirect(action:'dashBoard')
+            //redirect(action: 'dashBoard',model:[user:result.user]) // Just redirect
         } else {
-            session.user = user
-            flash.message = "Login successful!"
-            redirect(action: 'dashBoard')
+            render(view: 'login')
         }
-
-
     }
+
 
     def dashBoard() {
         if (!session.user) {
-            redirect(action: 'login')
+            render(view:'login')
             return
         }
-        render(view: "dashBoard")
+       // render(view:'dashBoard')
+        def user=session.user
+        def subscriptionCount = Subscription.countByUser(session.user) ?: 0
+        def topicCount = Topic.countByOwner(session.user) ?: 0  // or .countByOwner if your field is `owner`
+        render(view: "dashBoard", model: [ subscriptionCount: subscriptionCount, topicCount: topicCount,user:user])
     }
+
 
     def home() {
-
         render(view: "home")
-    }
-
-    def userProfile() {
-        if (!session.user) {
-            redirect(action: 'login')
-            return
-        }
-        render(view: 'userProfile')
     }
 
     def editProfile() {
@@ -108,21 +54,6 @@ class UserController {
         render(view: 'editProfile')
     }
 
-    def post() {
-        if (!session.user) {
-            redirect(action: 'login')
-            return
-        }
-        render(view: 'post')
-    }
-
-    def topic() {
-        if (!session.user) {
-            redirect(action: 'login')
-            return
-        }
-        render(view: 'topic')
-    }
 
     def showImage() {
         //def user = User.get(params.id) // or session.user if you're using session
@@ -138,6 +69,88 @@ class UserController {
             // Fallback image if user has no photo
             redirect(uri: '/assets/icons/user.jpeg')
         }
+    }
+
+    def logout() {
+        session.invalidate() // Clears the entire session
+        flash.message = "You have been logged out successfully."
+        redirect(action: 'home') // assuming home is an action, not just a view
+    }
+
+    def myTopic() {
+        if (!session.user) {
+            redirect(controller: 'user', action: 'login')
+            return
+        }
+        println(user:session.user)
+        def myTopics = Topic.findAllByOwner(session.user)?:[]
+        println(myTopics:myTopics)
+        render(view: "myTopic", model: [myTopics:myTopics])
+
+    }
+//send Inviattion
+    def sendInvite() {
+        if (!session.user) {
+            redirect(action: 'login')
+            return
+        }
+        flash.error = "Domain Restricted to send mail to other Domain"
+        redirect(controller: 'user', action: 'dashBoard')
+    }
+
+    //save document
+    def saveDocument() {
+        MultipartFile file = request.getFile('document')
+
+        if (!file?.empty) {
+            // Safer upload directory
+            String uploadDir = "${grailsApplication.mainContext.servletContext.getRealPath('/uploads')}"
+            String filename = UUID.randomUUID().toString() + "_" + file.originalFilename
+            String filePath = "${uploadDir}/${filename}"
+
+            File savedFile = new File(filePath)
+            savedFile.parentFile.mkdirs() // ensure directory exists
+            file.transferTo(savedFile)
+
+            def documentResource = new DocumentResource(
+                    description: params.description,
+                    owner: session.user,
+                    topic: Topic.get(params.topicId),
+                    filePath: filePath,
+                    originalFilename: file.originalFilename
+            )
+
+            if (documentResource.save(flush: true)) {
+                flash.message = "Document shared successfully"
+            } else {
+                flash.error = "Failed to save document"
+            }
+        } else {
+            flash.error = "Please upload a file"
+        }
+
+        redirect(controller: 'user', action: 'dashBoard')
+    }
+
+
+//save link fine
+    def saveLink() {
+        println(params)
+        def topic = Topic.get(params.topicId)
+        def linkResource = new LinkResource(
+                url: params.url,
+                description: params.description,
+                topic: topic,
+                owner: session.user
+        )
+
+        if (linkResource.save(flush: true)) {
+            flash.message = "Link added successfully"
+        } else {
+            flash.error = "Failed to add link"
+        }
+
+        redirect(controller: 'user', action: 'dashBoard')
     }
 
 

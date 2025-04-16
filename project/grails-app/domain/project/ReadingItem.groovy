@@ -1,15 +1,16 @@
 package project
 
 class ReadingItem {
+    // this is any extra domain class i have made
     User user
-    Resource resource
+   ResourceTable resourceTable
     boolean isRead = false
 
-    static belongsTo = [user: User, resource: Resource]
+    static belongsTo = [user: User, resourceTable: ResourceTable]
 
     static constraints = {
         user nullable: false
-        resource nullable: false
+        resourceTable nullable: false
         isRead nullable: false
     }
 
