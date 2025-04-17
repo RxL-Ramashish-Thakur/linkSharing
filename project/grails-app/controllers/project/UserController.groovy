@@ -34,11 +34,12 @@ class UserController {
             render(view:'login')
             return
         }
-       // render(view:'dashBoard')
         def user=session.user
         def subscriptionCount = Subscription.countByUser(session.user) ?: 0
-        def topicCount = Topic.countByOwner(session.user) ?: 0  // or .countByOwner if your field is `owner`
-        render(view: "dashBoard", model: [ subscriptionCount: subscriptionCount, topicCount: topicCount,user:user])
+        def topicCount = Topic.countByOwner(session.user) ?: 0
+        def myTopics=Topic.findAllByOwner(user)
+        def subscriptions=Subscription.findAllByUser(user)
+        render(view: "dashBoard", model: [ subscriptionCount: subscriptionCount, topicCount: topicCount,user:user,myTopics: myTopics,subscriptions:subscriptions])
     }
 
 

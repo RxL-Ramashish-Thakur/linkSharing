@@ -73,7 +73,8 @@
 
 
                 <!-- User Box -->
-                <g:render template="/common/userBrief" model="[myTopics:myTopics, subscriptionCount: subscriptionCount, topicCount: topicCount, mySubscriptions:mySubscritions,user:user]"/>
+                <g:render template="/common/userBrief"
+                          model="[subscriptionCount: subscriptionCount, topicCount: topicCount, user: user]"/>
                 <br>
 
 
@@ -82,14 +83,41 @@
 
                     <div class="d-flex justify-content-between  fs-4 p-2 bg-secondary">
                         <div class="fw-bold">Subscriptions</div>
+                        <div><a href="#">View all</a></div>
+                    </div>
+
+                    <div class="border border-dark"></div>
+                    <g:if test="${subscriptions}">
+                        <g:each in="${subscriptions}" var="subscription">
+                            <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
+                        </g:each>
+                    </g:if>
+                    <g:else>
+                        <div class="alert alert-info mt-4">You have not  any subscribe topics yet.</div>
+                    </g:else>
+                </div>
+            <br>
+
+                <div class="row g-0 mb-3 bd">
+
+                    <div class="d-flex justify-content-between  fs-4 p-2 bg-secondary">
+                        <div class="fw-bold">Topic</div>
 
                         <div><a href="#">View all</a></div>
                     </div>
 
-                   %{-- <div class="border border-dark"></div>
-                    <g:render template="/common/myTopic"/>
                     <div class="border border-dark"></div>
-                    <g:render template="/common/subscriptionTopic"/>--}%
+                    <g:if test="${myTopics}">
+                        <div class="row ">
+                            <g:each in="${myTopics}" var="topic">
+                                <g:render template="/common/myTopic" model="[topic: topic]"/>
+                            </g:each>
+                        </div>
+                    </g:if>
+                    <g:else>
+                        <div class="alert alert-info mt-4">You have not  any subscribe topics yet.</div>
+                    </g:else>
+
                 </div>
 
             </div>

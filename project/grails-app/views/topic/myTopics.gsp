@@ -29,8 +29,24 @@
     <h1 class="text-center fw-bold">Topic</h1>
 </div>
 <br>
+<div class="container">
 <g:render template="/common/userNavbar"/>
+<g:if test="${myTopics}">
+    <g:each in="${myTopics}" var="topic">
+        <g:render template="/common/myTopic" model="[topic: topic]"/>
+    </g:each>
 
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+        <g:paginate total="${topicTotal}" max="2" />
+    </div>
+</g:if>
+
+<g:else>
+    <div class="alert alert-info mt-4">You have not created any topics yet.</div>
+</g:else>
+
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
