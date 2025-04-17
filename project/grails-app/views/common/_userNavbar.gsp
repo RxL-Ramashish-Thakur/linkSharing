@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm bd">
     <div class="container-fluid">
         <!-- Brand -->
-        <g:link class="navbar-brand fw-bold"  controller="user" action="dashBoard" >Link Sharing</g:link>
+        <g:link class="navbar-brand fw-bold" controller="user" action="dashBoard">Link Sharing</g:link>
 
         <!-- Toggler (for small screens) -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -33,7 +33,6 @@
                                  title="Send Invitation"/>
                 </span>
 
-
                 <span data-bs-toggle="modal" data-bs-target="#shareDocModal" style="cursor:pointer;">
                     <asset:image src="/icons/doc.png" width="30" height="30" alt="createDocRes"
                                  title="Create Document"/>
@@ -45,16 +44,18 @@
 
                 %{--        MODALES HERE FOR ALL --}%
 
-                <g:render template="/common/createModel"/>
-                <g:render template="/common/invitationModel"/>
-                <g:render template="/common/documentModel"/>
-                <g:render template="/common/linkModel"/>
+                <g:render template="/common/createModel" model="[user:user]"/>
+                <g:render template="/common/invitationModel" model="[myTopics: myTopics]"/>
+                <g:render template="/common/documentModel" model="[myTopics: myTopics]"/>
+                <g:render template="/common/linkModel" model="[myTopics: myTopics]"/>
 
 
 
                 <!-- User Icon -->
                 <span style="cursor:pointer;">
-                    <asset:image src="/icons/user.jpeg" width="30" height="30" alt="user"/>
+                    <g:link controller="user" action="editProfile" class="dropdown-item"><asset:image
+                            src="/icons/user.jpeg" width="30" height="30" alt="user"/>
+                    </g:link>
                 </span>
             </div>
 

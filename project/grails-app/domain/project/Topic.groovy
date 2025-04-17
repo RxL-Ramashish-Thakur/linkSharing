@@ -13,5 +13,21 @@ class Topic {
         name unique: 'owner', nullable: false
         visibility nullable: false
     }
+    static mapping = {
+        resources cascade: 'all-delete-orphan'
+    }
 }
 
+//class Topic {
+//    String name
+//    User owner
+//    Visibility visibility
+//    Date dateCreated
+//    Date lastUpdated
+//
+//    static hasMany = [resources: ResourceTable]  // Add this line
+//
+//    static mapping = {
+//        resources cascade: 'all-delete-orphan'
+//    }
+//}

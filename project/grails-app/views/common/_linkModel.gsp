@@ -17,7 +17,7 @@
                 <div class="mb-3">
                     <label>Topic *</label>
                     <select class="form-select" name="topicId" required>
-                        <g:each in="${topics}" var="topic">
+                        <g:each in="${myTopics}" var="topic">
                             <option value="${topic.id}">${topic.name}</option>
                         </g:each>
                     </select>

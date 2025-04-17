@@ -18,7 +18,7 @@
                     <label class="col-sm-3 col-form-label">Topic *</label>
                     <div class="col-sm-9">
                         <select class="form-select" name="topicId">
-                            <g:each in="${topics}" var="topic">
+                            <g:each in="${myTopics}" var="topic">
                                 <option value="${topic.id}">${topic.name}</option>
                             </g:each>
                         </select>

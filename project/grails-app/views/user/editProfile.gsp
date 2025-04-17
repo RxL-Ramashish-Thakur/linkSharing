@@ -42,8 +42,8 @@
         <h1 class="text-center fw-bold">Edit Profile</h1>
     </div>
 
-    <!-- HEADER -->
-    <g:render template="/common/userNavbar"/>
+    <!-- HEADING -->
+    <g:render template="/common/userNavbar" model="[myTopics: myTopics, user: user]"/>
     <br/>
 
     <!-- BODY -->
@@ -51,10 +51,35 @@
 
         <!-- Left Column -->
         <div class="col-5">
-            <g:render template="/common/userBrief"/>
-            <br/>
 
-            <div class="bd"><g:render template="/common/myTopic"/></div>
+            <br/>
+            <g:render template="/common/userBrief"
+                      model="[subscriptionCount: subscriptionCount, topicCount: topicCount, user: user]"/>
+            <br/>
+            %{--My Topic Box--}%
+            <div class="row g-0 mb-3 bd">
+                <div class="d-flex justify-content-between fs-4 p-2 bg-secondary">
+                    <div class="fw-bold">Topic</div>
+
+                    <div><g:link controller="topic" action="myTopics">View all</g:link></div>
+                </div>
+
+                <div class="border border-dark"></div>
+
+                <!-- Scrollable container with vertical scroll only -->
+                <div style="max-height: 400px; overflow-y: auto; overflow-x: hidden;">
+                    <g:if test="${myTopics}">
+                        <div class="row gx-0">
+                            <g:each in="${myTopics}" var="topic">
+                                <g:render template="/common/myTopic" model="[topic: topic]"/>
+                            </g:each>
+                        </div>
+                    </g:if>
+                    <g:else>
+                        <div class="alert alert-info mt-4">You have not any subscribed topics yet.</div>
+                    </g:else>
+                </div>
+            </div>
 
         </div>
 
@@ -69,12 +94,12 @@
                         <div class="container m-2">
                             <div class="row m-2">
                                 <label class="col-6">First Name<span>*</span></label>
-                                <g:textField name="firstName" class="col-5" value="${user?.firstName}"/>
+                                <g:textField name="firstName" class="col-5" value="${session.user.firstName}"/>
                             </div>
 
                             <div class="row m-2">
                                 <label class="col-6">Last Name<span>*</span></label>
-                                <g:textField name="lastName" class="col-5" value="${user?.lastName}"/>
+                                <g:textField name="lastName" class="col-5" value="${session.user.lastName}"/>
                             </div>
 
                             <div class="row m-2">

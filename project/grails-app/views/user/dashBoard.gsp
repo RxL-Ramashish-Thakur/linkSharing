@@ -60,9 +60,7 @@
 <div class="container">
 
     <!-- HEADING -->
-    <g:render template="/common/userNavbar"/>
-
-
+    <g:render template="/common/userNavbar" model="[myTopics: myTopics, user: user]"/>
     <div class="container-fluid">
 
         <div class="row">
@@ -71,59 +69,59 @@
             <div class="col-lg-6 col-md-12">
                 <br>
 
-
                 <!-- User Box -->
                 <g:render template="/common/userBrief"
                           model="[subscriptionCount: subscriptionCount, topicCount: topicCount, user: user]"/>
+
+                <!-- Trending Topics -->
+                <div class="mt-3 bd">
+                    <div class="bg-secondary text-white p-2">
+                        <h4>Trending Topics</h4>
+                    </div>
+
+                    <div class="border border-dark"></div>
+
+                    <div>
+                        <g:if test="${mostSubscriptions}">
+                            <g:each in="${mostSubscriptions}" var="subscription">
+                                <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
+                                <div class="border border-dark"></div>
+                            </g:each>
+                        </g:if>
+                        <g:else>
+                            <div class="alert alert-info mt-4">You have not any subscribe topics yet.</div>
+                        </g:else>
+                    </div>
+
+                </div>
                 <br>
 
-
-                <!-- Subscribes Box -->
+                %{--My Topic Box--}%
                 <div class="row g-0 mb-3 bd">
-
-                    <div class="d-flex justify-content-between  fs-4 p-2 bg-secondary">
-                        <div class="fw-bold">Subscriptions</div>
-                        <div><a href="#">View all</a></div>
-                    </div>
-
-                    <div class="border border-dark"></div>
-                    <g:if test="${subscriptions}">
-                        <g:each in="${subscriptions}" var="subscription">
-                            <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
-                        </g:each>
-                    </g:if>
-                    <g:else>
-                        <div class="alert alert-info mt-4">You have not  any subscribe topics yet.</div>
-                    </g:else>
-                </div>
-            <br>
-
-                <div class="row g-0 mb-3 bd">
-
-                    <div class="d-flex justify-content-between  fs-4 p-2 bg-secondary">
+                    <div class="d-flex justify-content-between fs-4 p-2 bg-secondary">
                         <div class="fw-bold">Topic</div>
 
-                        <div><a href="#">View all</a></div>
+                        <div><g:link controller="topic" action="myTopics">View all</g:link></div>
                     </div>
 
                     <div class="border border-dark"></div>
-                    <g:if test="${myTopics}">
-                        <div class="row ">
-                            <g:each in="${myTopics}" var="topic">
-                                <g:render template="/common/myTopic" model="[topic: topic]"/>
-                            </g:each>
-                        </div>
-                    </g:if>
-                    <g:else>
-                        <div class="alert alert-info mt-4">You have not  any subscribe topics yet.</div>
-                    </g:else>
 
+                    <!-- Scrollable container with vertical scroll only -->
+                    <div style="max-height: 400px; overflow-y: auto; overflow-x: hidden;">
+                        <g:if test="${myTopics}">
+                            <div class="row gx-0">
+                                <g:each in="${myTopics}" var="topic">
+                                    <g:render template="/common/myTopic" model="[topic: topic]"/>
+                                </g:each>
+                            </div>
+                        </g:if>
+                        <g:else>
+                            <div class="alert alert-info mt-4">You have not any subscribed topics yet.</div>
+                        </g:else>
+                    </div>
                 </div>
 
             </div>
-
-
-
 
             <!-- RIGHT COLUMN -->
 
@@ -143,21 +141,32 @@
                     <g:render template="/common/inbox"/>
 
                 </div>
+                <br/>
 
+                <!-- My Subscribes Box -->
+                <div class="row g-0 mb-3 bd">
 
-                <!-- Trending Topics -->
-                <div class="mt-3 bd">
-                    <div class="bg-secondary text-white p-2">
-                        <h4>Trending Topics</h4>
+                    <div class="d-flex justify-content-between fs-4 p-2 bg-secondary">
+                        <div class="fw-bold">Subscriptions</div>
+
+                        <div><g:link controller="topic" action="subscribeTopic">View all</g:link></div>
                     </div>
 
                     <div class="border border-dark"></div>
-                    <g:render template="/common/subscriptionTopic"/>
-                    <div class="border border-dark"></div>
-                    <g:render template="/common/subscriptionTopic"/>
+
+                    <div style="max-height: 400px; overflow-y: auto;"><!-- Scrollable wrapper -->
+                        <g:if test="${subscriptions}">
+                            <g:each in="${subscriptions}" var="subscription">
+                                <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
+                                <div class="border border-dark"></div>
+                            </g:each>
+                        </g:if>
+                        <g:else>
+                            <div class="alert alert-info mt-4">You have not any subscribe topics yet.</div>
+                        </g:else>
+                    </div>
 
                 </div>
-                <br>
 
             </div>
 

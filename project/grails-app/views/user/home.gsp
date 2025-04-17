@@ -42,7 +42,7 @@
         <!-- Column 1: Link Sharing -->
         <div class="col-12 col-md-4">
             <div class="fw-bold mt-2">
-                <a href="#">Link Sharing</a>
+                <g:link controller="user" action="home">Link Sharing</g:link>
             </div>
         </div>
 

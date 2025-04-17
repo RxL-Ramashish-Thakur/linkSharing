@@ -2,54 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <title>Subscribed Topics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>My Subscribe Topic</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-    .bd {
-        border: solid 3px;
-        border-radius: 5px;
+    .topic-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        padding: 15px;
     }
-
-    input {
-        border-radius: 5px;
-    }
-
-    a {
-        text-decoration: none;
-        color: cornflowerblue;
-    }
-
     </style>
 </head>
-
 <body>
 
-<div class="container ">
+<div class="container my-4">
+    <h2 class="text-center mb-4">My Subscribed Topics</h2>
+    <g:render template="/common/userNavbar" model="[myTopics: myTopics, user: user]"/>
 
-    <!-- HEADING -->
-    <g:render template="/common/userNavbar"/>
-    <h2 class="text-center">My Subscribe Topic</h2>
-    <br>
+
+    <br/>
+
     <g:if test="${subscriptions}">
-        <div class="row ">
+        <div class="row g-4">
             <g:each in="${subscriptions}" var="subscription">
-
-                <g:render template="/common/subscriptionTopic" model="[subscription:subscription]"/>
-
+                <div class="col-12">
+                    <div class="topic-card shadow-sm">
+                        <div class="d-flex align-items-center mb-3">
+                            <g:if test="${subscriptions?.topic?.owner?.photo}">
+                                <img src="${createLink(controller: 'user', action: 'showImage', id: subscription?.topic?.owner?.id)}"
+                                     alt="Owner Photo" width="150" height="150" />
+                            </g:if>
+                            <g:else>
+                                <asset:image src="/icons/user.jpeg" alt="Default" width="150" height="150" />
+                            </g:else>
+                            <div>
+                                <h5 class="mb-0">${subscription?.topic?.name}</h5>
+                                <small>@${subscription?.topic?.owner?.firstName}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </g:each>
         </div>
+
+        <!-- Pagination Buttons -->
+        <div class="d-flex justify-content-center mt-4">
+            <g:paginate
+                    controller="topic"
+                    action="subscribeTopic"
+                    total="${subscriptionCount}"
+                    max="${max}"
+                    params="[max: max]" />
+        </div>
+
+
     </g:if>
     <g:else>
-        <div class="alert alert-info mt-4">You have not  any subscribe topics yet.</div>
+        <div class="alert alert-info text-center mt-5">You haven't subscribed to any topics yet.</div>
     </g:else>
-
-
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

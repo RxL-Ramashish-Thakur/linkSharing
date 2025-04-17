@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile
 
 class UserController {
     def userService
+    def DashboardService
 
     def saveUser() {
         println "Register button clicked"
@@ -21,25 +22,44 @@ class UserController {
 
         if (result.success) {
             session.user = result.user
-             redirect(action:'dashBoard')
+            redirect(action: 'dashBoard')
             //redirect(action: 'dashBoard',model:[user:result.user]) // Just redirect
         } else {
-            render(view: 'login')
+            render(view: 'home')
         }
     }
 
 
     def dashBoard() {
         if (!session.user) {
-            render(view:'login')
+            render(view: 'home')
             return
         }
-        def user=session.user
-        def subscriptionCount = Subscription.countByUser(session.user) ?: 0
-        def topicCount = Topic.countByOwner(session.user) ?: 0
-        def myTopics=Topic.findAllByOwner(user)
-        def subscriptions=Subscription.findAllByUser(user)
-        render(view: "dashBoard", model: [ subscriptionCount: subscriptionCount, topicCount: topicCount,user:user,myTopics: myTopics,subscriptions:subscriptions])
+        def dashboardModel = DashboardService.getDashboardModel(session.user)
+        render(view: "dashBoard", model: dashboardModel)
+//        def user = session.user
+//        def topics = Topic.findAllByOwner(session.user)
+//        def subscriptionCount = Subscription.countByUser(session.user) ?: 0
+//        def topicCount = Topic.countByOwner(session.user) ?: 0
+//        def myTopics = Topic.findAllByOwner(user)
+//        def subscriptions = Subscription.findAllByUser(user)
+//        def grouped = Subscription.createCriteria().list {
+//            projections {
+//                groupProperty("topic")
+//                count("id", "subCount")
+//            }
+//            order("subCount", "desc")
+//            maxResults(1)
+//        }
+//        println("finding trending topic ")
+//        println(grouped)
+//        def mostSubscribedTopic = grouped ? grouped[0][0] : null
+//        println(mostSubscribedTopic)
+//        def mostSubscriptions = mostSubscribedTopic ? Subscription.findAllByTopic(mostSubscribedTopic) : []
+//        println(mostSubscriptions)
+//        render(view: "dashBoard", model: [subscriptionCount: subscriptionCount, topicCount: topicCount, user: user, myTopics: myTopics,
+//                                          subscriptions    : subscriptions, mostSubscriptions: mostSubscriptions])
+
     }
 
 
@@ -49,10 +69,12 @@ class UserController {
 
     def editProfile() {
         if (!session.user) {
-            redirect(action: 'login')
+            redirect(action: 'home')
             return
         }
-        render(view: 'editProfile')
+        def dashboardModel = DashboardService.getDashboardModel(session.user)
+        render(view: "editProfile", model: dashboardModel)
+
     }
 
 
@@ -83,10 +105,10 @@ class UserController {
             redirect(controller: 'user', action: 'login')
             return
         }
-        println(user:session.user)
-        def myTopics = Topic.findAllByOwner(session.user)?:[]
-        println(myTopics:myTopics)
-        render(view: "myTopic", model: [myTopics:myTopics])
+        println(user: session.user)
+        def myTopics = Topic.findAllByOwner(session.user) ?: []
+        println(myTopics: myTopics)
+        render(view: "myTopic", model: [myTopics: myTopics])
 
     }
 //send Inviattion
