@@ -72,29 +72,28 @@
                 <!-- User Box -->
                 <g:render template="/common/userBrief"
                           model="[subscriptionCount: subscriptionCount, topicCount: topicCount, user: user]"/>
-
                 <!-- Trending Topics -->
-                <div class="mt-3 bd">
-                    <div class="bg-secondary text-white p-2">
-                        <h4>Trending Topics</h4>
-                    </div>
-
-                    <div class="border border-dark"></div>
-
-                    <div>
-                        <g:if test="${mostSubscriptions}">
-                            <g:each in="${mostSubscriptions}" var="subscription">
-                                <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
-                                <div class="border border-dark"></div>
-                            </g:each>
-                        </g:if>
-                        <g:else>
-                            <div class="alert alert-info mt-4">You have not any subscribe topics yet.</div>
-                        </g:else>
-                    </div>
-
+            <div class="mt-3 bd">
+                <div class="bg-secondary text-white p-2">
+                    <h4>Trending Topics</h4>
                 </div>
-                <br>
+
+                <div class="border border-dark"></div>
+
+                <div style="max-height: 250px; overflow-y: auto;"> <!-- SCROLLABLE CONTAINER -->
+                    <g:if test="${publicTopics}">
+                        <g:each in="${publicTopics}" var="topic">
+                            <g:render template="/common/trendingTopic" model="[topic: topic]"/>
+                            <div class="border border-dark"></div>
+                        </g:each>
+                    </g:if>
+                    <g:else>
+                        <div class="alert alert-info mt-4">You have not any subscribe topics yet.</div>
+                    </g:else>
+                </div>
+            </div>
+            <br>
+
 
                 %{--My Topic Box--}%
                 <div class="row g-0 mb-3 bd">
@@ -155,8 +154,8 @@
                     <div class="border border-dark"></div>
 
                     <div style="max-height: 400px; overflow-y: auto;"><!-- Scrollable wrapper -->
-                        <g:if test="${subscriptions}">
-                            <g:each in="${subscriptions}" var="subscription">
+                        <g:if test="${mySubscribeTopics}">
+                            <g:each in="${mySubscribeTopics}" var="subscription">
                                 <g:render template="/common/subscriptionTopic" model="[subscription: subscription]"/>
                                 <div class="border border-dark"></div>
                             </g:each>

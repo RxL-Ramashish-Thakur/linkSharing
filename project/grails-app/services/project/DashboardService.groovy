@@ -3,30 +3,35 @@ package project
 class DashboardService {
 
     def getDashboardModel(User user) {
-        def topics = Topic.findAllByOwner(user)
+        def myTopics = Topic.findAllByOwner(user)
         def subscriptionCount = Subscription.countByUser(user) ?: 0
         def topicCount = Topic.countByOwner(user) ?: 0
-        def subscriptions = Subscription.findAllByUser(user)
+        def mySubscribeTopics = Subscription.findAllByUser(user)
 
-        def grouped = Subscription.createCriteria().list {
-            projections {
-                groupProperty("topic")
-                count("id", "subCount")
+        def results = Subscription.createCriteria().list {
+                projections {
+                    groupProperty("topic") // Group by Topic
+                    count("id", 'subscriberCount') // Count of subscriptions
+                }
+                order("subscriberCount", "desc") // Order by count descending
+                maxResults(5) // Limit to top 5
             }
-            order("subCount", "desc")
-            maxResults(1)
-        }
+            // Extract Topic instances from results
+        List<Topic> trendingTopics = results.collect { it[0] }
+        def publicTopics = Topic.findAllByVisibility(Visibility.PUBLIC)
+        println(mySubscribeTopics: mySubscribeTopics)
 
-        def mostSubscribedTopic = grouped ? grouped[0][0] : null
-        def mostSubscriptions = mostSubscribedTopic ? Subscription.findAllByTopic(mostSubscribedTopic) : []
+
 
         return [
                 user               : user,
-                myTopics           : topics,
+                myTopics           : myTopics,
                 subscriptionCount  : subscriptionCount,
                 topicCount         : topicCount,
-                subscriptions      : subscriptions,
-                mostSubscriptions  : mostSubscriptions
+                mySubscribeTopics:mySubscribeTopics,
+                trendingTopics     : trendingTopics,
+               publicTopics:publicTopics
         ]
     }
+
 }

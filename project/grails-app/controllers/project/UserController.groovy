@@ -6,6 +6,9 @@ import org.springframework.web.multipart.MultipartFile
 class UserController {
     def userService
     def DashboardService
+    def index(){
+        render(view: 'index')
+    }
 
     def saveUser() {
         println "Register button clicked"
@@ -36,29 +39,8 @@ class UserController {
             return
         }
         def dashboardModel = DashboardService.getDashboardModel(session.user)
+
         render(view: "dashBoard", model: dashboardModel)
-//        def user = session.user
-//        def topics = Topic.findAllByOwner(session.user)
-//        def subscriptionCount = Subscription.countByUser(session.user) ?: 0
-//        def topicCount = Topic.countByOwner(session.user) ?: 0
-//        def myTopics = Topic.findAllByOwner(user)
-//        def subscriptions = Subscription.findAllByUser(user)
-//        def grouped = Subscription.createCriteria().list {
-//            projections {
-//                groupProperty("topic")
-//                count("id", "subCount")
-//            }
-//            order("subCount", "desc")
-//            maxResults(1)
-//        }
-//        println("finding trending topic ")
-//        println(grouped)
-//        def mostSubscribedTopic = grouped ? grouped[0][0] : null
-//        println(mostSubscribedTopic)
-//        def mostSubscriptions = mostSubscribedTopic ? Subscription.findAllByTopic(mostSubscribedTopic) : []
-//        println(mostSubscriptions)
-//        render(view: "dashBoard", model: [subscriptionCount: subscriptionCount, topicCount: topicCount, user: user, myTopics: myTopics,
-//                                          subscriptions    : subscriptions, mostSubscriptions: mostSubscriptions])
 
     }
 

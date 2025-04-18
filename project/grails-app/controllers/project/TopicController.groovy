@@ -1,21 +1,39 @@
 package project
 
 class TopicController {
-def topicService
+    def topicService
     def DashboardService
+    def subscriptionService
+
+
+    def subscribeUnsubscribe() {
+        User currentUser = session.user
+        if (!currentUser) {
+            redirect(controller: 'user', action: 'home')
+            return
+        }
+        def topic=Topic.findById(params.topicId)
+       def result=subscriptionService.subscribeUnsubscribe(topic,currentUser)
+        flash.message = result.status ?: result.error
+        redirect(controller: 'user', action: 'dashBoard')
+    }
+
+
+
 
 
     def save() {
         def result = topicService.createTopic(params, session.user)
         if (result.success) {
             flash.message = "Topic created and subscribed successfully!"
-            redirect( controller:'user', action: 'dashBoard')
+            redirect(controller: 'user', action: 'dashBoard')
         } else {
             flash.error = result.message
-            redirect(controller:'user',action: 'dashBoard')
+            redirect(controller: 'user', action: 'dashBoard')
 
         }
     }
+
     def myTopics() {
         if (!session.user) {
             redirect(controller: 'user', action: 'home')
@@ -23,7 +41,7 @@ def topicService
         }
 
 
-        def user=session.user
+        def user = session.user
         int max = params.int('max') ?: 2
         int offset = params.int('offset') ?: 0
 
@@ -31,11 +49,11 @@ def topicService
         def total = Topic.countByOwner(session.user)
 
         render(view: 'myTopics', model: [
-                myTopics    : myTopics,
-                topicTotal  : total,
-                max         : max,
-                offset      : offset,
-                user: user
+                myTopics  : myTopics,
+                topicTotal: total,
+                max       : max,
+                offset    : offset,
+                user      : user
         ])
     }
 
@@ -55,28 +73,18 @@ def topicService
 
         def subscriptionCount = Subscription.countByUser(user)
         def dashboardModel = DashboardService.getDashboardModel(session.user)
-        def myTopics=dashboardModel.myTopics;
+        def myTopics = dashboardModel.myTopics;
         render(view: 'subscribeTopic', model: [
-                subscriptions     : subscriptions,
-                subscriptionCount : subscriptionCount,
-                max               : max,
-                offset            : offset,
-                params            : params,
-                myTopics: myTopics,
-                user:user
+                subscriptions    : subscriptions,
+                subscriptionCount: subscriptionCount,
+                max              : max,
+                offset           : offset,
+                params           : params,
+                myTopics         : myTopics,
+                user             : user
 
         ])
     }
-
-
-
-
-
-
-
-
-
-
 
 
 }
